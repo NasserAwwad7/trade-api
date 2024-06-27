@@ -1,5 +1,6 @@
 const WebSocket = require('ws');
 const wss = new WebSocket.Server({ port: 8080 });
+console.log('New server started on port ', 8080);
 
 // Variables
 const Trade_API = 'https://pdzsl5xw2kwfmvauo5g77wok3q0yffpl.lambda-url.us-east-2.on.aws/';
@@ -59,22 +60,22 @@ const makeTrade = async (tradeData, ws) => {
     }
 
     Submit_Trade_API = `https://mt4.mtapi.io/OrderSend?id=${Slave_ID}&${parameters}`;
-
     try {
         const response = await fetch(Submit_Trade_API);
         const data = await response.json();
-        console.log("Trade response data: ", data);
-        ws.send(JSON.stringify(data));  // Send data to frontend
 
-    } catch (error) {
-        // if token is expired, re-login and retry trade
-        if (error.message.includes('INVALID_TOKEN')) {
+        if(data.code === "INVALID_TOKEN"){
+            // if token is expired, re-login and retry trade
+            console.log("Token expired, re-login and retry trade");
             await login();
             await makeTrade(tradeData, ws);
         }
-        else {
-            console.error('Error making trade:', error);
+        else{
+            ws.send(JSON.stringify(data));  // Send data to frontend
         }
+
+    } catch (error) {
+        console.error('Error making trade:', error);
     }
 
 };
