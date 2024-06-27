@@ -1,0 +1,96 @@
+.App {
+    text-align: center;
+  }
+  
+  .App-logo {
+    height: 40vmin;
+    pointer-events: none;
+  }
+  
+  @media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+    }
+  }
+  
+  .App-header {
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    background-color: black;
+  }
+  
+  .App-link {
+    color: #61dafb;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  $primary: #e74c3c;
+
+  .table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    padding: 20px;
+  
+    table {
+      border-collapse: collapse;
+      font-size: 1rem;
+  
+      tr {
+        border-bottom: 1px solid #ccc;
+        
+        th {
+          font-weight: bold;
+          text-align: left;
+        }
+  
+        td {
+          padding: 0.3rem;
+          font-weight: bold;
+          text-align: left;
+        }
+      }
+    }
+    
+    .trade-label {
+      color: $primary;
+    }
+  }
+  
+
+  .trade-button{
+    padding: 1.5rem 3rem;
+    border: none;
+    border-radius: 1rem;
+    background-color: $primary;
+    color: white;
+    font-size: 1.3rem;
+    position: absolute;
+    right: 2rem;
+    bottom: 2rem;
+    cursor: pointer;
+  }
+
+  .error{
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+  }
