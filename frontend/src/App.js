@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './App.scss'; // Import SCSS file
+import './App.scss';
 
 function App() {
   const [tradeDataFromServer, setTradeDataFromServer] = useState({});
   const [ws, setWs] = useState(null);
-  const [connectionError, setConnectionError] = useState(false); // State to track connection error
+  const [connectionError, setConnectionError] = useState(false);
+  const [ApiLimitError, setApiLimitError] = useState(false);
 
   useEffect(() => {
     console.log('Connecting to Backend...');
@@ -13,21 +14,28 @@ function App() {
 
   const initializeWebSocket = () => {
     const websocket = new WebSocket('ws://localhost:8080');
-    // const websocket = new WebSocket('wss://upwork-backend-1.onrender.com');
+    //const websocket = new WebSocket('wss://upwork-backend.onrender.com');
 
     setWs(websocket);
 
     websocket.onopen = () => {
       console.log('Connected to Backend...');
-      setConnectionError(false); // Reset connection error state on successful connection
+      setConnectionError(false);
     };
 
     websocket.onmessage = (event) => {
       const tradeData = JSON.parse(event.data);
-      console.log("Replicating Master Trade");
-      setTradeDataFromServer(tradeData);
-      console.log("Succefully Replicating Master Trade");
-      console.log('Displaying Trade Details');
+      console.log('tradeData ', tradeData);
+      if (tradeData.message === 'Too many open orders') {
+        setApiLimitError(true);
+        console.log("You need to wait until the API limit is reset");
+      }
+      else {
+        console.log("Replicating Master Trade");
+        setTradeDataFromServer(tradeData);
+        console.log("Succefully Replicating Master Trade");
+        console.log('Displaying Trade Details');
+      }
     };
 
     websocket.onclose = () => {
@@ -70,6 +78,9 @@ function App() {
 
   return (
     <div>
+      {ApiLimitError && (
+        <h2 className='error'>ERROR: TOO_MANY_ORDERS at mtrestapi.Trading.OrderSend</h2>
+      )}
       {connectionError && (
         <h2 className='error'>Connection is Disconnected. Attempting to reconnect...</h2>
       )}
