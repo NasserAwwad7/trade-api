@@ -4,7 +4,7 @@ console.log('New server started on port ', 8080);
 
 // Variables
 const Trade_API = 'https://pdzsl5xw2kwfmvauo5g77wok3q0yffpl.lambda-url.us-east-2.on.aws/';
-const Connection_API = "https://mt4.mtapi.io/Connect?user=44712225&password=tfkp48&host=18.209.126.198&port=443";
+const Connection_API = "https://mt4.mtapi.io/Connect?user=4639834&password=gHrJPmeiJ!Dr29U&host=192.149.49.139&port=443";
 let Submit_Trade_API;
 let Slave_ID;
 
